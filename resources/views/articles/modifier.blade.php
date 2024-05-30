@@ -11,13 +11,18 @@
         <div class="col s12">
             <h1>modifier un article</h1>
             <hr>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="alert alert-danger">{{ $error }}</li>
+                @endforeach
+            </ul>
             @if (session('status'))
                 <div class="alert alert-success">
                 {{session('status')}}
 
                 </div>
             @endif
-             <form action="/articles.modifier_traitement" method="POST" class="form_group">
+             <form action="/modifier/traitement" method="POST" class="form_group">
                 @csrf
                 <input type="hidden" name="id" style="display:none;"value="{{$articles->id}}">
                 <div class="mb-3">

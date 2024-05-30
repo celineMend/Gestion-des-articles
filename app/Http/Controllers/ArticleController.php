@@ -13,10 +13,15 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::all();// récupération des données
         return view('articles.index' , compact('articles'));
     }
 
+    public function show($id)
+    {
+        $article = Article::find($id);
+        return view('articles.show', compact('article'));
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -26,19 +31,19 @@ class ArticleController extends Controller
     }
     public function ajouter_traitement(Request $request)
     {
-    //    $request->validate([
-    //        'nom'=>'resquired',
-    //        'description'=>'required',
-    //         'image'=>'required',
-    //         'a_la_une'=>'required',
-    //     ]);
+       $request->validate([
+           'nom'=>'required',
+           'description'=>'required',
+            'image'=>'required',
+            // 'a_la_une'=>'required|boolean',
+        ]);
         $article = new Article();
         $article->nom = $request->nom;
         $article->description = $request->description;
         $article->image = $request->image;
-        $article->a_la_une = $request-> a_la_une;
+        $article->a_la_une = TRUE;
         $article->save();
-        return redirect('/ajouter')->with('status','L\'article a été ajouter avec success');
+        return redirect('/articles')->with('status','L\'article a été ajouter avec success');
     }
     public function modifier_articles($id){
         $articles = Article::find($id);
@@ -49,28 +54,28 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function modifier_articles_traitement(Request $request, $id)
+    public function modifier_articles_traitement(Request $request)
     {
-            //    $request->validate([
-    //        'nom'=>'resquired',
-    //        'description'=>'required',
-    //         'image'=>'required',
-    //         'a_la_une'=>'required',
-    //     ]);
+        //        $request->validate([
+        //    'nom'=>'resquired',
+        //    'description'=>'required',
+        //     'image'=>'required',
+        //     'a_la_une'=>'required',
+        // ]);
 
 
     $article = Article::find($request->id);
     $article->nom = $request->nom;
     $article->description = $request->description;
     $article->image = $request->image;
-    $article->modifier();
+    $article->save();
     return redirect('/articles')->with('status','L\'article a été modifier avec succès');
     }
 
     public function supprimer_articles($id)
     {
         $article = Article::find($id);
-        $article->supprimer();
+        $article->delete();
         return redirect('/articles')->with('status','L\'article a été supprimer avec succès');
 
     }
