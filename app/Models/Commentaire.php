@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Commentaire extends Model
 {
     use HasFactory;
-    protected $fillable = ['article_id', 'contenu'];
+    protected $fillable = ['article_id', 'contenu','nom_complet_auteur'];
 
     public function article()
     {

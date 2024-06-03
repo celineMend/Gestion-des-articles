@@ -10,13 +10,12 @@
       height: 100%;
     }
     .card-img-top-custom {
-      height: 150px;
+      height: 200px;
       object-fit: cover;
     }
   </style>
 </head>
 <body>
-    <h1>Listes des Articles</h1>
   <div class="container mt-5">
     <a href="/ajouter" class="btn btn-info mb-3">Ajouter</a>
     <ul>
@@ -34,17 +33,18 @@
       $ide = 1;
     @endphp
 
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="row">
       @foreach($articles as $article)
-        <div class="col">
-          <div class="card card-custom h-100">
+        <div class="col-md-3 mb-4 d-flex align-items-stretch">
+          <div class="card card-custom">
             <img src="{{ $article->image }}" class="card-img-top card-img-top-custom" alt="Image de l'article">
             <div class="card-body">
               <h5 class="card-title">{{ $article->nom }}</h5>
               <p class="card-text">{{ $article->description }}</p>
               <p class="card-text">{{ $article->a_la_une ? 'À la une' : 'Non à la une' }}</p>
               <a href="/articles/{{ $article->id }}" class="btn btn-info">Voir détail</a><br><br>
-              <a href="/modifier/{{ $article->id }}" class="btn btn-warning">Modifier</a><br>
+              <a href="/modifier/{{ $article->id }}" class="btn btn-info">Modifier</a><br>
+
               <button class="btn btn-danger mt-2" onclick="confirmDelete({{ $article->id }})">Supprimer</button>
             </div>
           </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Article;
 
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
 
 
@@ -19,8 +20,10 @@ class ArticleController extends Controller
 
     public function show($id)
     {
-        $article = Article::find($id);
-        return view('articles.show', compact('article'));
+        $commentaires = Commentaire::all()->where('article_id', $id);
+
+        $article = Article::findOrFail($id);
+        return view('articles.show', compact('article','commentaires'));
     }
     /**
      * Store a newly created resource in storage.
@@ -42,6 +45,7 @@ class ArticleController extends Controller
         $article->description = $request->description;
         $article->image = $request->image;
         $article->a_la_une = TRUE;
+        $article->date_creation = now();
         $article->save();
         return redirect('/articles')->with('status','L\'article a été ajouter avec success');
     }
@@ -51,9 +55,9 @@ class ArticleController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
     public function modifier_articles_traitement(Request $request)
     {
         //        $request->validate([
